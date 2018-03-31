@@ -97,4 +97,14 @@ void aq()
     TTS.stop();
     TTS.playAsync(koe, 100, gain);
   }
+  else if(M5.BtnB.wasPressed())
+  {
+    TTS.stop();
+    TTS.playAsync("konnnichiwa.", 120, gain);
+  }
+  else if(M5.BtnC.wasPressed())
+  {
+    TTS.stop();
+    TTS.playAsync("yukkuri_siteittene?", 70, gain);
+  }
 }
