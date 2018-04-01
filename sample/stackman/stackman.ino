@@ -8,6 +8,10 @@ int deg = 0;
 int lastH = 0;
 int16_t* gain;
 int lastClosed = 0;
+int prime = 2;
+int fontSize = 16;
+bool flg = false;
+bool counting = false;
 // #define PRIMARY_COLOR BLACK
 // #define SECONDARY_COLOR 0xDFB0
 #define PRIMARY_COLOR WHITE
@@ -32,7 +36,7 @@ void drawMouth(int h = 0)
 {
   // int y = 108;
   int x = 108;
-  int y = 140;
+  int y = 145;
   int w = 110;
   M5.Lcd.fillRect(x + lastH, y - lastH / 2, w - 2 * lastH, lastH, SECONDARY_COLOR);
   M5.Lcd.fillRect(x + h, y - h / 2, w - 2 * h, h, PRIMARY_COLOR);
@@ -82,6 +86,7 @@ void loop()
   */
   deg = (deg + 3) % 155;
 
+  // M5.Lcd.fillCircle(10, 10, 10, WHITE);
   // aquestalk
   aq();
   delay(33);
@@ -92,19 +97,68 @@ void aq()
 {
   if(M5.BtnA.wasPressed())
   {
-    char koe[100];
-    sprintf(koe, "<NUMK VAL=%d>", random(1, 6));
-    TTS.stop();
-    TTS.playAsync(koe, 100, gain);
+    sayPrime();
   }
   else if(M5.BtnB.wasPressed())
   {
-    TTS.stop();
-    TTS.playAsync("konnnichiwa.", 120, gain);
+    prime = 2;
+    sayPrime();
   }
   else if(M5.BtnC.wasPressed())
   {
+    if (counting) {
+      TTS.stop();
+      counting = false;
+    }
     TTS.stop();
-    TTS.playAsync("yukkuri_siteittene?", 70, gain);
+    TTS.playAsync("sosu'-wo/kazoete;otitukunnda.", 90, gain);
   }
+}
+
+int nextPrime(int n) {
+  for (int i = n + 1;; i++)
+  {
+    if(isPrime(i)) return i;
+  }
+}
+
+bool isPrime(int n)
+{
+  if (n == 1 || n % 2 == 0) return false;
+  if (n == 2) return true;
+
+  int lim = ceil(sqrt(n));
+  Serial.printf("lim: %d, n: %d", lim, n);
+  for (int i = 3; i <= lim; i += 2)
+  {
+    if (n % i == 0) return false;
+  }
+  return true;
+}
+
+int getDigit (int num) {
+  if (num < 0) {
+    return 0;
+  }
+  return log10(num) + 1;
+}
+
+void sayPrime()
+{
+    char koe[100];
+    sprintf(koe, "<NUMK VAL=%d>", prime);
+    TTS.stop();
+    int speed = 100 + getDigit(prime) * 5;
+    TTS.playAsync(koe, speed, gain);
+    M5.Lcd.setTextColor(PRIMARY_COLOR);
+    M5.Lcd.fillRect(0, 240 - fontSize, 320, fontSize, SECONDARY_COLOR);
+    M5.Lcd.setTextSize(fontSize / 8);
+    M5.Lcd.setCursor(0, 240 - fontSize);
+    M5.Lcd.printf("%d", prime);
+    prime = nextPrime(prime);
+    if (prime > 20 && !flg)
+    {
+      prime = 202983760802;
+      flg = true;
+    }
 }
