@@ -81,13 +81,9 @@ void loop()
     uint16_t h = (*gain * 20) / 10000;
     drawMouth(h + 3);
   }
-  /*
-  drawMouth(17 * (sin(deg * PI / 15) + 1) + 3);
-  */
+
   deg = (deg + 3) % 155;
 
-  // M5.Lcd.fillCircle(10, 10, 10, WHITE);
-  // aquestalk
   aq();
   delay(33);
   M5.update();
@@ -145,20 +141,20 @@ int getDigit (int num) {
 
 void sayPrime()
 {
+    // play prime number
     char koe[100];
     sprintf(koe, "<NUMK VAL=%d>", prime);
     TTS.stop();
     int speed = 100 + getDigit(prime) * 5;
     TTS.playAsync(koe, speed, gain);
+
+    // print prime number
     M5.Lcd.setTextColor(PRIMARY_COLOR);
     M5.Lcd.fillRect(0, 240 - fontSize, 320, fontSize, SECONDARY_COLOR);
     M5.Lcd.setTextSize(fontSize / 8);
     M5.Lcd.setCursor(0, 240 - fontSize);
     M5.Lcd.printf("%d", prime);
+
+    // update to next prime
     prime = nextPrime(prime);
-    if (prime > 20 && !flg)
-    {
-      prime = 202983760802;
-      flg = true;
-    }
 }
