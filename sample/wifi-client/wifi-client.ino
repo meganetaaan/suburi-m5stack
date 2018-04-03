@@ -78,40 +78,6 @@ bool configWifi2()
   }
 }
 
-/*
-bool configWifi()
-{
-  String file = TFReadFile("/system/wifi.ini");
-  if (file != "")
-  {
-    for (int i = 0; i < cntChrs(file, '\n'); i++)
-    {
-      String wifi = parseString(i, '\n', file);
-      wifi = wifi.substring(0, (wifi.length() - 1));
-      String ssid = parseString(0, ' ', wifi);
-      String pswd = parseString(1, ' ', wifi);
-      char *ssid_ = strToChar(ssid);
-      char *pswd_ = strToChar(pswd);
-      if (WiFi.begin(ssid_, pswd_))
-      {
-        delay(10);
-        unsigned long timeout = 10000;
-        unsigned long previousMillis = millis();
-        while (true)
-        {
-          unsigned long currentMillis = millis();
-          if (currentMillis - previousMillis > timeout)
-            break;
-          if (WiFi.status() == WL_CONNECTED)
-            return true;
-          delay(1000);
-        }
-      }
-    }
-  }
-}
-*/
-
 void setup()
 {
   M5.begin();
