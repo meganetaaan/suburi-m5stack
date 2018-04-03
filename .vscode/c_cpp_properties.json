@@ -9,7 +9,9 @@
                 "/home/ishik/Arduino/hardware/espressif/esp32/tools/sdk/include/driver/driver",
                 "/home/ishik/Arduino/libraries/aqtkpico_esp32",
                 "/home/ishik/Arduino/libraries/M5Stack/src",
-                "/home/ishik/Arduino/libraries/AquesTalkTTS"
+                "/home/ishik/Arduino/libraries/AquesTalkTTS",
+                "/home/ishik/Arduino/libraries/misakiUTF16",
+                "/home/ishik/Arduino/hardware/espressif/esp32/libraries/WiFiClientSecure/src"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
@@ -20,7 +22,9 @@
                     "/home/ishik/Arduino/hardware/espressif/esp32/tools/sdk/include/driver/driver",
                     "/home/ishik/Arduino/libraries/aqtkpico_esp32",
                     "/home/ishik/Arduino/libraries/M5Stack/src",
-                    "/home/ishik/Arduino/libraries/AquesTalkTTS"
+                    "/home/ishik/Arduino/libraries/AquesTalkTTS",
+                    "/home/ishik/Arduino/libraries/misakiUTF16",
+                    "/home/ishik/Arduino/hardware/espressif/esp32/libraries/WiFiClientSecure/src"
                 ]
             },
             "intelliSenseMode": "clang-x64",
