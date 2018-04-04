@@ -2,6 +2,6 @@
     "board": "espressif:esp32:m5stack-core-esp32",
     "output": "../build",
     "configuration": "FlashMode=qio,FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
-    "sketch": "sample/wifi-client/wifi-client.ino",
+    "sketch": "sample/stackman/stackman.ino",
     "port": "/dev/ttyUSB0"
 }

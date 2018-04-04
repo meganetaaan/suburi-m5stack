@@ -3,50 +3,21 @@
 #include <M5Stack.h>
 #include "driver/i2s.h"
 #include "AquesTalkTTS.h"
+#include <avator.h>
+
+#define PRIMARY_COLOR WHITE
+#define SECONDARY_COLOR BLACK
 
 int deg = 0;
 int lastH = 0;
 int16_t* gain;
 int lastClosed = 0;
+int16_t lastGain = 0;
 int prime = 2;
 int fontSize = 16;
 bool flg = false;
 bool counting = false;
-// #define PRIMARY_COLOR BLACK
-// #define SECONDARY_COLOR 0xDFB0
-#define PRIMARY_COLOR WHITE
-#define SECONDARY_COLOR BLACK
-
-void drawEye(bool open = true)
-{
-  M5.Lcd.fillRect(80, 80, 180, 40, SECONDARY_COLOR);
-  if (open)
-  {
-    M5.Lcd.fillCircle(90, 93, 8, PRIMARY_COLOR);
-    M5.Lcd.fillCircle(230, 96, 8, PRIMARY_COLOR);
-  }
-  else
-  {
-    M5.Lcd.fillRect(86, 93, 16, 4, PRIMARY_COLOR);
-    M5.Lcd.fillRect(226, 96, 16, 4, PRIMARY_COLOR);
-  }
-}
-
-void drawMouth(int h = 0)
-{
-  // int y = 108;
-  int x = 108;
-  int y = 145;
-  int w = 110;
-  M5.Lcd.fillRect(x + lastH, y - lastH / 2, w - 2 * lastH, lastH, SECONDARY_COLOR);
-  M5.Lcd.fillRect(x + h, y - h / 2, w - 2 * h, h, PRIMARY_COLOR);
-  lastH = h;
-}
-
-void clear()
-{
-  M5.Lcd.fillScreen(SECONDARY_COLOR);
-}
+Avator avator;
 
 void setup()
 {
@@ -54,9 +25,7 @@ void setup()
   *gain = 0;
   M5.begin();
   M5.Lcd.setBrightness(60);
-  clear();
-  drawEye(true);
-  drawMouth(3);
+  avator.init();
   int iret = TTS.create(NULL);
 }
 
@@ -64,7 +33,7 @@ void loop()
 {
   if (deg == 11)
   {
-    drawEye(false);
+    avator.openEye(false);
     lastClosed = 1;
   }
   else if (lastClosed > 0)
@@ -72,14 +41,16 @@ void loop()
     lastClosed++;
     if (lastClosed > 10)
     {
-      drawEye(true);
+      avator.openEye(true);
       lastClosed = 0;
     }
   }
-  if (*gain != 0)
+  int g = *gain;
+  if (lastGain != g)
   {
-    uint16_t h = (*gain * 20) / 10000;
-    drawMouth(h + 3);
+    uint16_t h = min((*gain * 20) / 10000, 30) * 100 / 30;
+    avator.openMouth(h);
+    lastGain = g;
   }
 
   deg = (deg + 3) % 155;
